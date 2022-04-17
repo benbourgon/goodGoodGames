@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Good Games</title>
+    <!-- link the Google Fonts -->
+        <!-- h1 font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- link the CSS -->
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header>
+        <div class="wrapper">
+            <h1>Good Good Games</h1>
+            <p>Video game recommendation-er. </p>     
+        </div>
+    </header>
+    <main>
+        <div class="wrapper">
+            <form class= "flex-parent" action="submit">
+                <div class="genre-child">
+                    <label for="genre-dropdown">Select a genre:</label>
+                    <select name="genre" id="genre-dropdown" required>
+                        <option value="" default disabled selected>Genres:</option>
+                    </select>
+                </div>
+                <div class="platform-child">
+                    <label for="platform-dropdown">Select a platform:</label>
+                    <select name="platform" id="platform-dropdown" required>
+                        <option value="" default disabled selected>Platforms:</option>
+                    </select>
+                </div>
+                <div class="game-container invisible">
+                    <!-- Game results will be generated here -->
+                    <div class="game-image-container">
+                        <!-- The game's main image will be generated here -->
+                        <img src="" alt="" class="game-art">
+                    </div>
+                    <div class="game-info-container">
+                        <!-- The game's info will be generated here -->
+                    </div>
+                </div>
+                <div class="button-child">
+                    <button class="submit-button">Gimme those Good Good Games!</button>
+                    <button class="reset-button" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+        </main>
+        <footer>
+            <div class="wrapper">
+                <p>Created by Ben Bourgon at <a href="https://junocollege.com/">Juno College</a>. Data courtesy of <a href="https://rawg.io/apidocs">RAWG API</a>.</p>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script src="./app.js"></script>
+    </body>
+</html>
