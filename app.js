@@ -32,11 +32,12 @@ app.chooseRandomGame = (array) => {
 }
 
 // remove the form elements when the submit button is pressed.
-app.makeInvisible = () => {
+app.hideForm = () => {
     app.$genreChild.addClass("invisible")
     app.$platformChild.addClass("invisible");
     app.$submitButton.addClass("invisible");
-    app.$gameContainer.removeClass("invisible")
+    app.$gameContainer.removeClass("invisible");
+    app.$infoContainer.removeClass("invisible");
 }
 
 // refresh the page when reset is hit
@@ -45,10 +46,9 @@ app.refreshPage = () => {
     app.$platformChild.removeClass("invisible");
     app.$submitButton.removeClass("invisible");
     app.$gameContainer.addClass("invisible");
-    app.$gameContainer.empty();
+    app.$infoContainer.addClass("invisible");
     app.$gameArt.empty();
     app.$imageContainer.empty();
-    app.$infoContainer.empty();
     app.getSelections()
 }
 
@@ -75,10 +75,11 @@ app.chooseGame = (genre, platform) => {
             metacritic: "75, 100"
         }
     }).then((data) => {
-        if (data.count !== 0) {
-            const gameSelection = app.chooseRandomGame (data.results)
-            app.displayGame (gameSelection)
+        if (data) {
+            const gameSelection = app.chooseRandomGame(data.results)
+            app.displayGame(gameSelection)
         }else {
+            console.log("")
             app.$gameContainer.append("<h3 class=no-results>No matching results found. Please reset and try another option.</h3>")
         }
     })
@@ -86,15 +87,13 @@ app.chooseGame = (genre, platform) => {
 
 // store the user's selections as variables
 app.getSelections = () => {
-    // create an event listener 
-    app.$form.on("submit", (event) => {
-        event.preventDefault()
-        app.makeInvisible();
-        const genreSelection = app.$genreDropdown.val()
-        const platformSelection = app.$platformDropdown.val()
-        app.chooseGame (genreSelection, platformSelection)
-    });
-}
+    // Hide the dropdown inputs
+    app.hideForm();
+    // Store the user's selections
+    let genreSelection = app.$genreDropdown.val()
+    let platformSelection = app.$platformDropdown.val()
+    app.chooseGame (genreSelection, platformSelection)
+};
 // Get the options for the Genre select element
 app.populateGenreDropdown = () => {
     // AJAX call for the list of genres.
@@ -143,9 +142,12 @@ app.init = () => {
     // call methods to run on load
     app.populateGenreDropdown();
     app.populatePlatformDropdown();
-    app.getSelections();
-    app.$form.on("reset", (event) => {
-        event.preventDefault;
+    app.$submitButton.on("click", (event) => {
+        event.preventDefault();
+        app.getSelections();
+    });
+    app.$resetButton.on("click", (event) => {
+        event.preventDefault();
         app.refreshPage();
     })
 };
