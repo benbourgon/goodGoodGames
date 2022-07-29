@@ -8,7 +8,7 @@
 
 const app = {}
 
-// storing the api key and base api url as const.
+// storing the api key and base api url as constants
 app.API_KEY = "8d9bfb5b698a4fd096e3daaaaeee21af";
 app.BASE_URL = "https://api.rawg.io/api"
 
@@ -54,7 +54,6 @@ app.refreshPage = () => {
 
 // Display the game to the page
 app.displayGame = (game) => {
-    console.log(game)
     app.$gameArt.attr('src', game.background_image);
     app.$gameArt.attr('alt', `Key art for ${game.name}`);
     app.$infoContainer.append(`<h3>Title: ${game.name}</h3>`);
@@ -94,9 +93,6 @@ app.getSelections = () => {
         const genreSelection = app.$genreDropdown.val()
         const platformSelection = app.$platformDropdown.val()
         app.chooseGame (genreSelection, platformSelection)
-        app.$form.on("reset", (event) => {
-            app.refreshPage();
-        })
     });
 }
 // Get the options for the Genre select element
@@ -149,10 +145,9 @@ app.init = () => {
     app.populatePlatformDropdown();
     app.getSelections();
     app.$form.on("reset", (event) => {
+        event.preventDefault;
         app.refreshPage();
     })
 };
-
-$(() =>{
-    app.init()
-});
+// run the init function when the document is ready
+$(() => app.init());
