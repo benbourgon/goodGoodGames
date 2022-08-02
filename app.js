@@ -33,23 +33,21 @@ app.chooseRandomGame = (array) => {
 
 // remove the form elements when the submit button is pressed.
 app.hideForm = () => {
-    app.$genreChild.addClass("invisible")
-    app.$platformChild.addClass("invisible");
-    app.$submitButton.addClass("invisible");
-    app.$gameContainer.removeClass("invisible");
-    app.$infoContainer.removeClass("invisible");
+    app.$genreChild.toggleClass("invisible")
+    app.$platformChild.toggleClass("invisible");
+    app.$submitButton.toggleClass("invisible");
+    app.$gameContainer.toggleClass("invisible");
 }
 
 // refresh the page when reset is hit
 app.refreshPage = () => {
-    app.$genreChild.removeClass("invisible");
-    app.$platformChild.removeClass("invisible");
-    app.$submitButton.removeClass("invisible");
-    app.$gameContainer.addClass("invisible");
-    app.$infoContainer.addClass("invisible");
-    app.$gameArt.empty();
-    app.$imageContainer.empty();
-    app.getSelections()
+    app.$genreChild.toggleClass("invisible");
+    app.$platformChild.toggleClass("invisible");
+    app.$submitButton.toggleClass("invisible");
+    app.$gameContainer.toggleClass("invisible");
+    app.$gameArt.attr('src', '');
+    app.$gameArt.attr('alt', '');
+    app.$infoContainer.html('');
 }
 
 // Display the game to the page
@@ -75,11 +73,11 @@ app.chooseGame = (genre, platform) => {
             metacritic: "75, 100"
         }
     }).then((data) => {
-        if (data) {
+        if(data){
             const gameSelection = app.chooseRandomGame(data.results)
             app.displayGame(gameSelection)
-        }else {
-            console.log("")
+        } else {
+            app.$gameContainer.removeClass("invisible")
             app.$gameContainer.append("<h3 class=no-results>No matching results found. Please reset and try another option.</h3>")
         }
     })
@@ -87,12 +85,18 @@ app.chooseGame = (genre, platform) => {
 
 // store the user's selections as variables
 app.getSelections = () => {
-    // Hide the dropdown inputs
-    app.hideForm();
-    // Store the user's selections
-    let genreSelection = app.$genreDropdown.val()
-    let platformSelection = app.$platformDropdown.val()
-    app.chooseGame (genreSelection, platformSelection)
+
+    // Allow the selections to be stored if the user has made any
+    if((app.$genreDropdown.val()) && (app.$platformDropdown.val())){
+        // Hide the dropdown inputs
+        app.hideForm();
+        // Store the user's selections
+        let genreSelection = app.$genreDropdown.val()
+        let platformSelection = app.$platformDropdown.val()
+        app.chooseGame (genreSelection, platformSelection)
+    } else{
+
+    }
 };
 // Get the options for the Genre select element
 app.populateGenreDropdown = () => {
