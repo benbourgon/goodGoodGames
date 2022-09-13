@@ -100,11 +100,13 @@ button {
 
 .game-container {
     width: 100%;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     background-color: white;
     border: 5px solid black;
+    position: relative;
 }
 
 .no-results {
@@ -115,18 +117,27 @@ button {
 }
 
 .game-image-container {
-    width: 50%;
+    min-width: 100%;
+    max-height: 350px;
     display: flex;
     justify-content: flex-start;
 }
 
+.game-image-container img {
+    object-fit: contain;
+    object-position: top;
+}
+
 .game-info-container {
-    width: 50%;
+    width: max-content;
+    height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-content: flex-start;
-    padding-left: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0px 20px;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 footer .wrapper {

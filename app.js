@@ -1,11 +1,4 @@
-// RAWG API key: 8d9bfb5b698a4fd096e3daaaaeee21af
-
-// App Requirements:
-// 1. The app should: get games that match the selected genre, platform and metacritic rating of 75%
-// 3. Choose a random game from that list
-// 4. Display the game's title, box art, and platform(s).
-// 5. Be able to reset the process.
-
+// create the namespace
 const app = {}
 
 // storing the api key and base api url as constants
@@ -24,6 +17,9 @@ app.$gameContainer = $(".game-container");
 app.$imageContainer = $(".game-image-container")
 app.$infoContainer = $(".game-info-container")
 app.$gameArt = $(".game-art")
+
+// create a variable to control state of the page
+app.$formSubmitted = false;
 
 // Choose a random game from the final array.
 app.chooseRandomGame = (array) => {
@@ -54,7 +50,7 @@ app.refreshPage = () => {
 app.displayGame = (game) => {
     app.$gameArt.attr('src', game.background_image);
     app.$gameArt.attr('alt', `Key art for ${game.name}`);
-    app.$infoContainer.append(`<h3>Title: ${game.name}</h3>`);
+    app.$infoContainer.append(`<h3>${game.name}</h3>`);
     app.$infoContainer.append(`<p>Metacritic Score: ${game.metacritic}</p>`);
     app.$infoContainer.append(`<p>Release Date: ${game.released}`);
 }
@@ -77,7 +73,6 @@ app.chooseGame = (genre, platform) => {
             const gameSelection = app.chooseRandomGame(data.results)
             app.displayGame(gameSelection)
         } else {
-            app.$gameContainer.removeClass("invisible")
             app.$gameContainer.append("<h3 class=no-results>No matching results found. Please reset and try another option.</h3>")
         }
     })
@@ -85,7 +80,6 @@ app.chooseGame = (genre, platform) => {
 
 // store the user's selections as variables
 app.getSelections = () => {
-
     // Allow the selections to be stored if the user has made any
     if((app.$genreDropdown.val()) && (app.$platformDropdown.val())){
         // Hide the dropdown inputs
@@ -94,8 +88,12 @@ app.getSelections = () => {
         let genreSelection = app.$genreDropdown.val()
         let platformSelection = app.$platformDropdown.val()
         app.chooseGame (genreSelection, platformSelection)
-    } else{
+    }
 
+    if(!app.$genreDropdown.val()){
+        if(!app.$platformDropdown.val()){
+            swal("Oops!", "Please select a genre and a platform", "warning");
+        }
     }
 };
 // Get the options for the Genre select element
